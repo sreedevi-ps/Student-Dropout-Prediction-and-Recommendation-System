@@ -1,0 +1,76 @@
+import 'package:dot_curved_bottom_nav/dot_curved_bottom_nav.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:retentionx/core/colors/app_colors.dart';
+import 'package:retentionx/features/auth/presntation/screens/login_screen.dart';
+import 'package:retentionx/features/data_entry/presentation/screens/screen_admin_data_entry.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> with TickerProviderStateMixin {
+  int _currentPage = 0;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.bgColor,
+      extendBody: true,
+      body: _screens[_currentPage],
+      bottomNavigationBar: DotCurvedBottomNav(
+        scrollController: _scrollController,
+        hideOnScroll: true,
+        indicatorColor: AppColors.themeColor,
+        backgroundColor: AppColors.navBarColor,
+        animationDuration: const Duration(milliseconds: 300),
+        animationCurve: Curves.ease,
+        selectedIndex: _currentPage,
+        indicatorSize: 5,
+        borderRadius: 25,
+        height: 70,
+        onTap: (index) {
+          setState(() => _currentPage = index);
+        },
+        items: [
+          Icon(
+            Icons.home,
+            color: _currentPage == 0
+                ? AppColors.themeColor
+                : AppColors.unselectedIconColor,
+          ),
+          Icon(
+            Icons.person_add,
+            color: _currentPage == 1
+                ? AppColors.themeColor
+                : AppColors.unselectedIconColor,
+          ),
+          Icon(
+            Icons.cast_for_education,
+            color: _currentPage == 2
+                ? AppColors.themeColor
+                : AppColors.unselectedIconColor,
+          ),
+          Icon(
+            Icons.person,
+            color: _currentPage == 3
+                ? AppColors.themeColor
+                : AppColors.unselectedIconColor,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+List<Widget> _screens = [
+  Center(child: Text("Home")),
+  ScrenAdminDataEntry(),
+  Center(child: Text("Cousrses")),
+  Center(child: Text("Profile"))
+];
