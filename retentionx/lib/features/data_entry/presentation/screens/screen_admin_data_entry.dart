@@ -45,116 +45,119 @@ class _ScrenAdminDataEntryState extends State<ScrenAdminDataEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgColor,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                spacing: 18,
-                children: [
-                  StudentProfilePic(),
-                  DataFields(
-                    label: 'Name',
-                  ),
-                  //id
-                  DataFields(
-                    label: 'Id',
-                  ),
-                  //application order
-                  DataFields(
-                    label: 'Application Order',
-                  ),
-                  //course
-                  DataDropDown(
-                      suggestions: DataSuggestions.courses,
-                      controller: courseController,
-                      label: "Course"),
-                  //mother qualification
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              StudentProfilePic(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    spacing: 18,
+                    children: [
+                      DataFields(
+                        label: 'Name',
+                      ),
+                      //id
+                      DataFields(
+                        label: 'Id',
+                      ),
+                      //application order
+                      DataFields(
+                        label: 'Application Order',
+                      ),
+                      //course
+                      DataDropDown(
+                          suggestions: DataSuggestions.courses,
+                          controller: courseController,
+                          label: "Course"),
+                      //mother qualification
 
-                  DataDropDown(
-                      suggestions: DataSuggestions.parentQualifications,
-                      controller: motherQualificationController,
-                      label: 'Mother Qualification'),
+                      DataDropDown(
+                          suggestions: DataSuggestions.parentQualifications,
+                          controller: motherQualificationController,
+                          label: 'Mother Qualification'),
 
-                  //father qualification
-                  DataDropDown(
-                      suggestions: DataSuggestions.parentQualifications,
-                      controller: fatherQualificationController,
-                      label: 'Father Qualification'),
+                      //father qualification
+                      DataDropDown(
+                          suggestions: DataSuggestions.parentQualifications,
+                          controller: fatherQualificationController,
+                          label: 'Father Qualification'),
 
-                  //mother occupation
-                  DataDropDown(
-                    label: 'Mother Occupation',
-                    suggestions: DataSuggestions.parenstsOccupations,
-                    controller: motherOccupationController,
-                  ),
+                      //mother occupation
+                      DataDropDown(
+                        label: 'Mother Occupation',
+                        suggestions: DataSuggestions.parenstsOccupations,
+                        controller: motherOccupationController,
+                      ),
 
-                  //father occupation
-                  DataDropDown(
-                    label: 'Father Occupation',
-                    suggestions: DataSuggestions.parenstsOccupations,
-                    controller: fatherOccupationController,
-                  ),
+                      //father occupation
+                      DataDropDown(
+                        label: 'Father Occupation',
+                        suggestions: DataSuggestions.parenstsOccupations,
+                        controller: fatherOccupationController,
+                      ),
 
-                  //debtor
-                  DataFields(
-                    label: 'Debtor',
-                  ),
+                      //debtor
+                      DataFields(
+                        label: 'Debtor',
+                      ),
 
-                  //tuition fees up to date
-                  DataFields(
-                    label: 'Tuition fees up to date',
-                  ),
+                      //tuition fees up to date
+                      DataFields(
+                        label: 'Tuition fees up to date',
+                      ),
 
-                  //gender
-                  DataFields(
-                    label: "Gender",
-                  ),
-                  //scholarship holder
-                  DataFields(
-                    label: 'Scholarship Holder',
-                  ),
-                  //age
-                  DataFields(
-                    label: 'Age',
-                  ),
+                      //gender
+                      DataFields(
+                        label: "Gender",
+                      ),
+                      //scholarship holder
+                      DataFields(
+                        label: 'Scholarship Holder',
+                      ),
+                      //age
+                      DataFields(
+                        label: 'Age',
+                      ),
 
-                  //gdp
-                  DataFields(
-                    label: 'GDP',
+                      //gdp
+                      DataFields(
+                        label: 'GDP',
+                      ),
+                      //avg enrolled
+                      DataFields(
+                        label: 'Avg Enrolled',
+                      ),
+                      //avg approved
+                      DataFields(
+                        label: 'Avg Approved',
+                      ),
+                      //avg grade
+                      DataFields(
+                        label: 'Avg Grade',
+                      ),
+                      //submit button
+                      CommonButton(
+                        onPressed: () {},
+                        label: 'Upload',
+                      ),
+                      SizedBox(height: kBottomNavigationBarHeight),
+                    ],
                   ),
-                  //avg enrolled
-                  DataFields(
-                    label: 'Avg Enrolled',
-                  ),
-                  //avg approved
-                  DataFields(
-                    label: 'Avg Approved',
-                  ),
-                  //avg grade
-                  DataFields(
-                    label: 'Avg Grade',
-                  ),
-                  //submit button
-                  CommonButton(
-                    onPressed: () {},
-                    label: 'Upload',
-                  ),
-                  SizedBox(height: kBottomNavigationBarHeight),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-          DraggableWidget(
-              bottomMargin: 50,
-              topMargin: 50,
-              horizontalSpace: 20,
-              child: ExcelUploadButton()),
-        ],
-      ),
+        ),
+        DraggableWidget(
+            bottomMargin: 50,
+            topMargin: 50,
+            horizontalSpace: 20,
+            child: ExcelUploadButton()),
+      ],
     );
   }
 }
