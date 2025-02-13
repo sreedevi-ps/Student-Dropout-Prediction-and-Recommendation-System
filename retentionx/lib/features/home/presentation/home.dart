@@ -3,7 +3,7 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
-import 'package:retentionx/features/data_entry/presentation/screens/screen_admin_data_entry.dart';
+import 'package:retentionx/features/data_entry/presentation/screens/screen_student_data_entry.dart';
 import 'package:retentionx/features/profile/presentation/screens/admin_profile.dart';
 import 'package:retentionx/features/profile/presentation/screens/screen_student_profile.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
@@ -23,9 +23,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
+
+      
       body: widget.isAdmin
           ? adimnScreenscreens[_currentPage]
           : studentScreenscreens[_currentPage],
+
+
+
+
+
+
       bottomNavigationBar: DotCurvedBottomNav(
         scrollController: _scrollController,
         hideOnScroll: true,
@@ -72,7 +80,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   List<Widget> adimnScreenscreens = [
     Center(child: Text("Home")),
-    ScrenAdminDataEntry(),
+    ScreenStudentDataEntry(),
     Center(child: Text("Cousrses")),
     ScreenAdminProfile()
     // ScreenStudentProfile()

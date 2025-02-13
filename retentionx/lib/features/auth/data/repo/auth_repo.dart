@@ -15,7 +15,9 @@ class AuthRepo {
       });
 
       final response = await dio.post(ApiUrls.loginApi, data: formData);
-       Map<String, dynamic> responseData = response.data;
+
+      Map<String, dynamic> responseData = response.data;
+
       if (responseData['status'] == "success") {
         return right(
           response.data['user'],
@@ -27,4 +29,7 @@ class AuthRepo {
       return left(e.toString());
     }
   }
+
+
+
 }

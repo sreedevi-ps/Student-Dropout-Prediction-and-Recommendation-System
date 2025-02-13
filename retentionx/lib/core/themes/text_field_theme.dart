@@ -17,6 +17,10 @@ class TextFieldTheme {
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: Colors.grey),
       ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
     );
   }
 }

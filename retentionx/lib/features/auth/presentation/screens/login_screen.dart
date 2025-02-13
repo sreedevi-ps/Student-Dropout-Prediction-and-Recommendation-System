@@ -35,10 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+       
         if (state is AuthSuccess) {
-          AppRouting.goRemoveAll(screen: Home(
-            isAdmin: state.isAdmin,
-          ), context: context);
+          AppRouting.goRemoveAll(
+              screen: Home(
+                isAdmin: state.isAdmin,
+              ),
+              context: context);
         }
         if (state is AuthError) {
           HapticFeedback.vibrate();

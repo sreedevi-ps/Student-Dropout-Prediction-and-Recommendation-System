@@ -6,9 +6,8 @@ import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/themes/text_field_theme.dart';
 import 'package:retentionx/features/auth/presentation/screens/bloc/auth_bloc.dart';
 import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
-import 'package:retentionx/features/data_entry/presentation/screens/screen_admin_data_entry.dart';
-import 'package:retentionx/features/home/presentation/home.dart';
-import 'package:retentionx/features/profile/presentation/screens/screen_student_profile.dart';
+import 'package:retentionx/test/bloc/login_bloc_bloc.dart';
+import 'package:retentionx/test/login_screen._test.dart';
 
 void main() {
   runApp(const MainApp());
@@ -22,6 +21,8 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+        //LoginBlocBloc
+        BlocProvider<LoginBlocBloc>(create: (context) => LoginBlocBloc()),
       ],
       child: Flexify(
         designWidth: 375,
