@@ -1,7 +1,5 @@
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/features/data_entry/core/suggestions/data_suggestions.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/data_drop_down.dart';
@@ -42,6 +40,29 @@ class _ScrenAdminDataEntryState extends State<ScrenAdminDataEntry> {
   final TextEditingController avgEnrolledController = TextEditingController();
   final TextEditingController avgApprovedController = TextEditingController();
   final TextEditingController avgGradeController = TextEditingController();
+  
+  @override
+  void dispose() {
+    nameController.dispose();
+    idController.dispose();    
+    applicationOrderController.dispose();
+    courseController.dispose();    
+    motherQualificationController.dispose();
+    fatherQualificationController.dispose();
+    motherOccupationController.dispose();
+    fatherOccupationController.dispose();
+    debtorController.dispose();
+    tuitionFeesUpToDateController.dispose();
+    genderController.dispose();
+    scholarshipHolderController.dispose();
+    ageController.dispose();
+    gdpController.dispose();
+    avgEnrolledController.dispose();
+    avgApprovedController.dispose();
+    avgGradeController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

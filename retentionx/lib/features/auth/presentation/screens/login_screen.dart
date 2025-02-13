@@ -5,9 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:retentionx/core/app_routing/app_routing.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
-import 'package:retentionx/core/themes/text_field_theme.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
-import 'package:retentionx/features/auth/data/repo/auth_repo.dart';
 import 'package:retentionx/features/auth/presentation/screens/bloc/auth_bloc.dart';
 import 'package:retentionx/features/home/presentation/home.dart';
 
@@ -36,9 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          AppRouting.goRemoveAll(screen: Home(
-            isAdmin: state.isAdmin,
-          ), context: context);
+          AppRouting.goRemoveAll(
+              screen: Home(
+                isAdmin: state.isAdmin,
+              ),
+              context: context);
         }
         if (state is AuthError) {
           HapticFeedback.vibrate();
@@ -54,21 +54,32 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ListView(
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 10),
                   //image
                   Image.asset(
-                    'assets/RX logo.png',
+                    'assets/X.png',
                     height: 200,
                   ),
-                  Text(
-                    'Login',
-                    style: GoogleFonts.nunito(
-                      fontSize: 32,
-
-                      fontWeight: FontWeight.bold,
-                      // color: Color(0xFF1A237E),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Welcome to RetentionX!',
+                          style: GoogleFonts.fredoka(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Your Journey, Our Insights',
+                          style: GoogleFonts.fredoka(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
+
                   const SizedBox(height: 40),
 
                   // Email field
