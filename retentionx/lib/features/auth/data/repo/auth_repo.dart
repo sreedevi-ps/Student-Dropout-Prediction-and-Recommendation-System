@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:retentionx/core/api/api_urls.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:retentionx/core/extensions/either_extensions.dart';
+import 'package:retentionx/features/auth/data/model/user_logn_model.dart';
 
 class AuthRepo {
   static final dio = Dio();
 
-  static EitherFuture<String> login(
+  static EitherFuture<UserLoginModel> login(
       {required String userName, required String password}) async {
     try {
       FormData formData = FormData.fromMap({
@@ -15,11 +16,11 @@ class AuthRepo {
       });
 
       final response = await dio.post(ApiUrls.loginApi, data: formData);
-       Map<String, dynamic> responseData = response.data;
+      Map<String, dynamic> responseData = response.data;
       if (responseData['status'] == "success") {
-        return right(
-          response.data['user'],
-        );
+        UserLoginModel userloginmodel = UserLoginModel(
+            isAdmin: responseData["user"]=="admin", id: responseData["id"]);
+        return right(userloginmodel);
       } else {
         return left(response.data['message']);
       }

@@ -6,6 +6,7 @@ import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/themes/text_field_theme.dart';
 import 'package:retentionx/features/auth/presentation/screens/bloc/auth_bloc.dart';
 import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
+import 'package:retentionx/features/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -30,7 +31,7 @@ class MainApp extends StatelessWidget {
                     Theme.of(context).textTheme.apply(bodyColor: Colors.white)),
                 inputDecorationTheme: TextFieldTheme.themeTextForm()),
             debugShowCheckedModeBanner: false,
-            home: LoginScreen()),
+            home: SplashScreen()),
       ),
     );
   }

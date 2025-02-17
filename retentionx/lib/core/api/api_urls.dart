@@ -1,6 +1,7 @@
 
 
 class ApiUrls {
-  static const loginApi = 
-  "https://5z7l1nh4-5500.inc1.devtunnels.ms/login";
+  static const baseUrl = "https://vlc3xq7d-5000.inc1.devtunnels.ms/";
+  static const loginApi = "$baseUrl/login";
+  static const studentApi = "$baseUrl/add_student";
 }

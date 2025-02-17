@@ -1,8 +1,7 @@
-class Student {
+class StudentDataEntryModel {
   final String studentId;
   final String name;
-  final int applicationOrder;
-  final int course;
+  final String course;
   final String motherQualification;
   final String fatherQualification;
   final String motherOccupation;
@@ -17,10 +16,9 @@ class Student {
   final double avgApproved;
   final double avgGrade;
 
-  Student({
+  StudentDataEntryModel({
     required this.studentId,
     required this.name,
-    required this.applicationOrder,
     required this.course,
     required this.motherQualification,
     required this.fatherQualification,
@@ -38,11 +36,10 @@ class Student {
   });
 
   // Factory method to create an instance from JSON
-  factory Student.fromJson(Map<String, dynamic> json) {
-    return Student(
+  factory StudentDataEntryModel.fromJson(Map<String, dynamic> json) {
+    return StudentDataEntryModel(
       studentId: json['student_id'],
       name: json['name'],
-      applicationOrder: json['application_order'],
       course: json['course'],
       motherQualification: json['mother_qualification'],
       fatherQualification: json['father_qualification'],
@@ -65,7 +62,6 @@ class Student {
     return {
       'student_id': studentId,
       'name': name,
-      'application_order': applicationOrder,
       'course': course,
       'mother_qualification': motherQualification,
       'father_qualification': fatherQualification,

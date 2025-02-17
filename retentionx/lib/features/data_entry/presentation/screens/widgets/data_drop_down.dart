@@ -8,10 +8,13 @@ class DataDropDown extends StatelessWidget {
       {super.key,
       required this.suggestions,
       required this.controller,
-      required this.label});
+      
+      required this.label,
+      this.enabled = true});
   final List<String> suggestions;
   final TextEditingController controller;
   final String label;
+  final bool enabled;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,6 +25,7 @@ class DataDropDown extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         DropDownSearchField<String>(
+          hideKeyboard: enabled,
           isMultiSelectDropdown: false,
           suggestionsBoxDecoration: const SuggestionsBoxDecoration(
             constraints: BoxConstraints(maxHeight: 300),
@@ -32,8 +36,9 @@ class DataDropDown extends StatelessWidget {
           textFieldConfiguration: TextFieldConfiguration(
             cursorColor: AppColors.textWhite,
             style: TextStyle(color: AppColors.textWhite),
-            enabled: true,
+            enabled: enabled,
             controller: controller,
+            
             //controller: VariableControllers.customerNameController,
             //autofocus: true,
             // style: DefaultTextStyle.of(context)

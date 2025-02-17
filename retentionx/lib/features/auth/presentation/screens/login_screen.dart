@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:retentionx/core/app_routing/app_routing.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
+import 'package:retentionx/core/local_db/localdb.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/features/auth/presentation/screens/bloc/auth_bloc.dart';
@@ -34,6 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
+          LocalDatabase().saveData('user', {
+            "isadmin": state.isAdmin,
+            "id": state.id,
+          });
           AppRouting.goRemoveAll(
               screen: Home(
                 isAdmin: state.isAdmin,
@@ -57,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 10),
                   //image
                   Image.asset(
-                    'assets/X.png',
+                    'assets/RX logo.png',
                     height: 200,
                   ),
                   Center(
@@ -139,7 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   //  const Spacer(),
 
-                  // Login Button
                   CommonButton(
                     isLoading: state is AuthLoading,
                     onPressed: () {

@@ -5,7 +5,6 @@ sealed class AuthState {}
 
 final class AuthInitial extends AuthState {}
 
-
 //loading
 final class AuthLoading extends AuthState {}
 
@@ -18,5 +17,7 @@ final class AuthError extends AuthState {
 //success
 final class AuthSuccess extends AuthState {
   final bool isAdmin;
-  AuthSuccess(this.isAdmin);
+  final String id;
+
+  AuthSuccess(this.isAdmin, this.id);
 }
