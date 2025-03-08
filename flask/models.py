@@ -24,3 +24,5 @@ class StudentData(db.Model):
     avg_enrolled = db.Column(db.Float, nullable=True)
     avg_approved = db.Column(db.Float, nullable=True)
     avg_grade = db.Column(db.Float, nullable=True)
+    prediction = db.Column(db.String, nullable=True)
+    photo = db.Column(db.String, nullable=True)
