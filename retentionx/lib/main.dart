@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/themes/text_field_theme.dart';
 import 'package:retentionx/features/auth/presentation/screens/bloc/auth_bloc.dart';
-import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
-import 'package:retentionx/test/bloc/login_bloc_bloc.dart';
-import 'package:retentionx/test/login_screen._test.dart';
+import 'package:retentionx/features/data_entry/presentation/bloc/student_data_entry_bloc.dart';
+import 'package:retentionx/features/splash_screen/splash_screen.dart';
+import 'package:retentionx/features/student_list/presentation/bloc/student_list_bloc.dart';
 
 void main() {
   runApp(const MainApp());
@@ -21,8 +21,13 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
-        //LoginBlocBloc
-        BlocProvider<LoginBlocBloc>(create: (context) => LoginBlocBloc()),
+        //StudentDataEntryBloc
+        BlocProvider<StudentDataEntryBloc>(
+            create: (context) => StudentDataEntryBloc()),
+
+            //StudentListBloc
+            BlocProvider<StudentListBloc>(
+            create: (context) => StudentListBloc()),
       ],
       child: Flexify(
         designWidth: 375,
@@ -34,7 +39,7 @@ class MainApp extends StatelessWidget {
                     Theme.of(context).textTheme.apply(bodyColor: Colors.white)),
                 inputDecorationTheme: TextFieldTheme.themeTextForm()),
             debugShowCheckedModeBanner: false,
-            home: LoginScreen()),
+            home: SplashScreen()),
       ),
     );
   }

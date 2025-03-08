@@ -9,19 +9,23 @@ class CommonButton extends StatelessWidget {
     required this.onPressed,
     required this.label,
     this.isLoading = false,
+    this.btnColor,
+    this.width,
   });
   final Function() onPressed;
   final String label;
   final bool isLoading;
+  final Color? btnColor;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width:width ?? double.infinity,
       height: 60,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.themeColor,
+          backgroundColor: btnColor ?? AppColors.themeColor,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

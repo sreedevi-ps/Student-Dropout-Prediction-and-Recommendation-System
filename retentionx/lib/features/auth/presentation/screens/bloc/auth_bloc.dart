@@ -17,8 +17,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       res.fold((l) {
         emit(AuthError(l));
       }, (r) {
-        bool isAdmin = r == "admin";
-        emit(AuthSuccess(isAdmin));
+        
+        emit(AuthSuccess(r.isAdmin,r.id));
       });
     });
   }

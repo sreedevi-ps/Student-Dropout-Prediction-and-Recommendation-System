@@ -42,4 +42,7 @@ class AppColors {
 
   // Color(0xFF0F5D56),
   static const Color secondPrimary = Color(0xFF0F5D56);
+
+  //   //FFA725
+  static const Color orange = Color(0xFFFFA725);
 }

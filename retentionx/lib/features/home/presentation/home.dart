@@ -6,7 +6,7 @@ import 'package:retentionx/features/auth/presentation/screens/login_screen.dart'
 import 'package:retentionx/features/data_entry/presentation/screens/screen_student_data_entry.dart';
 import 'package:retentionx/features/profile/presentation/screens/admin_profile.dart';
 import 'package:retentionx/features/profile/presentation/screens/screen_student_profile.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+import 'package:retentionx/features/student_list/presentation/screens/screen_students_list.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.isAdmin});
@@ -23,17 +23,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-
-      
       body: widget.isAdmin
           ? adimnScreenscreens[_currentPage]
           : studentScreenscreens[_currentPage],
-
-
-
-
-
-
       bottomNavigationBar: DotCurvedBottomNav(
         scrollController: _scrollController,
         hideOnScroll: true,
@@ -79,7 +71,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   List<Widget> adimnScreenscreens = [
-    Center(child: Text("Home")),
+    ScreenStudentsList(),
     ScreenStudentDataEntry(),
     Center(child: Text("Cousrses")),
     ScreenAdminProfile()

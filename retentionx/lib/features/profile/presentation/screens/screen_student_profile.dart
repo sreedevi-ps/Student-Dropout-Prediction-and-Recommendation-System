@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:retentionx/core/app_routing/app_routing.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
+import 'package:retentionx/core/local_db/localdb.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
+import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
 import 'package:retentionx/features/profile/presentation/screens/widgets/performance_card.dart';
 import 'package:retentionx/features/profile/presentation/screens/widgets/profile_header.dart';
 import 'package:retentionx/features/profile/presentation/screens/widgets/student_info_card.dart';
+import 'package:retentionx/features/view_recommendations/presentation/screens/view_recommendations.dart';
 
 class ScreenStudentProfile extends StatelessWidget {
   const ScreenStudentProfile({super.key});
@@ -47,7 +51,27 @@ class ScreenStudentProfile extends StatelessWidget {
                 ),
               ],
             ),
-            CommonButton(onPressed: () {}, label: "View Recommendations"),
+            CommonButton(
+                btnColor: AppColors.orange,
+                onPressed: () {
+                  AppRouting.goRemoveAll(
+                      screen: LoginScreen(), context: context);
+                  //clear data
+                  LocalDatabase().deleteData('user');
+                },
+                label: "View Recommendations"),
+            //sizedbox
+            // SizedBox(height: 1),
+            CommonButton(
+                //FFA725
+
+                onPressed: () {
+                  AppRouting.goRemoveAll(
+                      screen: LoginScreen(), context: context);
+                  //clear data
+                  LocalDatabase().deleteData('user');
+                },
+                label: "Logout"),
             SizedBox(height: kBottomNavigationBarHeight),
           ],
         ),

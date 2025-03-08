@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:retentionx/core/app_routing/app_routing.dart';
+import 'package:retentionx/core/local_db/localdb.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
 import 'package:retentionx/features/profile/presentation/screens/widgets/profile_header.dart';
@@ -22,6 +23,8 @@ class ScreenAdminProfile extends StatelessWidget {
           CommonButton(
               onPressed: () {
                 AppRouting.goRemoveAll(screen: LoginScreen(), context: context);
+                //clear data
+                LocalDatabase().deleteData('user');
               },
               label: "Logout"),
           SizedBox(
