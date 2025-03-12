@@ -47,6 +47,7 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
           AppRouting.goRemoveAll(
               screen: Home(
                 isAdmin: state.userLoginModel.isAdmin,
+               
               ),
               context: context);
         }

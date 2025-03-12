@@ -9,6 +9,7 @@ class MenuChangerBloc extends Bloc<MenuChangerEvent, MenuChangerState> {
   MenuChangerBloc() : super(MenuChangerInitial()) {
     on<MenuChangeRequested>((event, emit) {
       try {
+        emit(MenuchangerLoading());
         emit(MenuChangerChangedSuccess(
           index: event.index,
           screen: event.screen,

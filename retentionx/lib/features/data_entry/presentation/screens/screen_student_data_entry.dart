@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
+import 'package:retentionx/core/local_db/localdb.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/features/data_entry/core/suggestions/data_suggestions.dart';
@@ -15,7 +16,9 @@ import 'package:retentionx/features/data_entry/presentation/screens/widgets/exce
 import '../../data/model/student_entry_model.dart';
 
 class ScreenStudentDataEntry extends StatefulWidget {
-  const ScreenStudentDataEntry({super.key});
+  const ScreenStudentDataEntry({
+    super.key,
+  });
 
   @override
   State<ScreenStudentDataEntry> createState() => _ScreenStudentDataEntryState();
@@ -48,6 +51,14 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
   final TextEditingController avgGradeController = TextEditingController();
 
   @override
+  void initState() {
+    //  getCourse();
+    //future delayed
+    Future.delayed(Duration.zero, () => getCourse());
+    super.initState();
+  }
+
+  @override
   void dispose() {
     nameController.dispose();
     idController.dispose();
@@ -68,6 +79,11 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
     avgGradeController.dispose();
 
     super.dispose();
+  }
+
+  getCourse() async {
+    Map<String, dynamic>? user = await LocalDatabase().getData('user');
+    courseController.text = user!['user'];
   }
 
   @override
@@ -129,10 +145,15 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
                           //   controller: applicationOrderController,
                           // ),
                           //course
-                          DataDropDown(
-                              suggestions: DataSuggestions.courses,
-                              controller: courseController,
-                              label: "Course"),
+                          DataFields(
+                            label: 'Course',
+                            controller: courseController,
+                            enabled: false,
+                          ),
+                          // DataDropDown(
+                          //     suggestions: DataSuggestions.courses,
+                          //     controller: courseController,
+                          //     label: "Course"),
                           //mother qualification
 
                           DataDropDown(

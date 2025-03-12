@@ -13,15 +13,19 @@ import 'package:retentionx/features/student_list/presentation/screens/screen_stu
 import 'package:retentionx/features/view_recommendations/presentation/screens/view_recommendations.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key, required this.isAdmin});
+  const Home({super.key, required this.isAdmin, });
   final bool isAdmin;
+
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+
+ 
   @override
   void initState() {
+    
     context.read<MenuChangerBloc>().add(MenuChangeRequested(
           index: 0,
           screen:
@@ -47,7 +51,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   backgroundColor: AppColors.navBarColor,
                   animationDuration: const Duration(milliseconds: 300),
                   animationCurve: Curves.ease,
-                  selectedIndex: state.index,
+                  selectedIndex: 0,
                   indicatorSize: 5,
                   borderRadius: 25,
                   height: 70,
@@ -80,12 +84,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             ? AppColors.themeColor
                             : AppColors.unselectedIconColor,
                       ),
-                    Icon(
-                      Icons.person,
-                      color: state.index == 3
-                          ? AppColors.themeColor
-                          : AppColors.unselectedIconColor,
-                    ),
+                    if (!widget.isAdmin)
+                      Icon(
+                        Icons.person,
+                        color: state.index == 3
+                            ? AppColors.themeColor
+                            : AppColors.unselectedIconColor,
+                      ),
+                    if (widget.isAdmin)
+                      Icon(
+                        Icons.person,
+                        color: state.index == 2
+                            ? AppColors.themeColor
+                            : AppColors.unselectedIconColor,
+                      ),
                   ],
                 ),
               )
@@ -94,15 +106,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  List<Widget> adimnScreenscreens = [
+ final List<Widget> adimnScreenscreens =  const [
     ScreenStudentsList(),
-    ScreenStudentDataEntry(),
+    ScreenStudentDataEntry(
+      
+      
+    ),
     // Center(child: Text("Cousrses")),
     ScreenAdminProfile()
     // ScreenStudentProfile()
   ];
 
-  List<Widget> studentScreenscreens = [
+  List<Widget> studentScreenscreens =  const [
     AppAnimationBuilder(
       child: ScreenStudentProfile(
         isAdmin: false,
