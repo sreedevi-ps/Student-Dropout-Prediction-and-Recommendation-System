@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:retentionx/features/student_list/data/model/student_model.dart';
+import 'package:retentionx/features/student_list/data/model/student_list_model.dart';
 import 'package:retentionx/features/student_list/data/repo/students_list_repo.dart';
 
 part 'student_list_event.dart';

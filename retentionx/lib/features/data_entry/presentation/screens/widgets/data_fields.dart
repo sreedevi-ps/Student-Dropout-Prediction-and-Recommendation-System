@@ -5,10 +5,11 @@ import 'package:retentionx/core/colors/app_colors.dart';
 class DataFields extends StatelessWidget {
   const DataFields({
     super.key, required this.label,
-    required this.controller
+    required this.controller,  this.isNumber = false,
   });
 final String label;
 final TextEditingController controller;
+final bool isNumber;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,6 +21,7 @@ final TextEditingController controller;
         const SizedBox(height: 8),
         TextField(
           controller: controller,
+           keyboardType: isNumber ? TextInputType.number : TextInputType.text,
           style: GoogleFonts.nunito(fontSize: 16, color: AppColors.white),
           cursorColor: AppColors.white,
         ),

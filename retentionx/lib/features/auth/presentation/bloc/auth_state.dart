@@ -16,8 +16,7 @@ final class AuthError extends AuthState {
 
 //success
 final class AuthSuccess extends AuthState {
-  final bool isAdmin;
-  final String id;
+ final UserLoginModel userLoginModel;
 
-  AuthSuccess(this.isAdmin, this.id);
+  AuthSuccess(this.userLoginModel);
 }

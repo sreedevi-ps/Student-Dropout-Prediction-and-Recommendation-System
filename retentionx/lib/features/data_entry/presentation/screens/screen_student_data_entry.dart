@@ -1,12 +1,15 @@
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/device/device_utils.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/features/data_entry/core/suggestions/data_suggestions.dart';
 import 'package:retentionx/features/data_entry/data/repo/student_data_entry_repo.dart';
-import 'package:retentionx/features/data_entry/presentation/bloc/student_data_entry_bloc.dart';
+import 'package:retentionx/features/data_entry/presentation/bloc/student_data_entry/student_data_entry_bloc.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/data_drop_down.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/data_fields.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/excel_upload_button.dart';
@@ -47,15 +50,43 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
   final TextEditingController avgApprovedController = TextEditingController();
   final TextEditingController avgGradeController = TextEditingController();
 
-//TODO: DISPOSE ALL CONTROLLRES
-//TODO: STATE MANAGEMENT
-//TODO: FORM VALIDATE
+  @override
+  void dispose() {
+    nameController.dispose();
+    idController.dispose();
+    applicationOrderController.dispose();
+    courseController.dispose();
+    motherQualificationController.dispose();
+    fatherQualificationController.dispose();
+    motherOccupationController.dispose();
+    fatherOccupationController.dispose();
+    debtorController.dispose();
+    tuitionFeesUpToDateController.dispose();
+    genderController.dispose();
+    scholarshipHolderController.dispose();
+    ageController.dispose();
+    gdpController.dispose();
+    avgEnrolledController.dispose();
+    avgApprovedController.dispose();
+    avgGradeController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StudentDataEntryBloc, StudentDataEntryState>(
       listener: (context, state) {
         if (state is StudentDataEntrySuccess) {
+          clearAllControllers();
+          QuickAlert.show(
+              context: context,
+              backgroundColor: AppColors.navBarColor,
+              confirmBtnColor: AppColors.themeColor,
+              type: QuickAlertType.success,
+              text: 'Student data uploaded Successfully!',
+              titleColor: Colors.white,
+              textColor: Colors.white);
           // DeviceUtils.showSnackBar(context, state.message);
         }
         if (state is StudentDataEntryError) {
@@ -68,8 +99,19 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
+                spacing: 20,
                 children: [
-                  StudentProfilePic(),
+                  SizedBox(height: 20),
+                  //text upload data
+                  Text(
+                    'Upload Student Data',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  //StudentProfilePic(),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -166,69 +208,104 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
                           DataFields(
                             label: 'Age',
                             controller: ageController,
+                            isNumber: true,
                           ),
 
                           //gdp
                           DataFields(
                             label: 'GDP',
                             controller: gdpController,
+                            isNumber: true,
                           ),
                           //avg enrolled
                           DataFields(
                             label: 'Avg Enrolled',
                             controller: avgEnrolledController,
+                            isNumber: true,
                           ),
                           //avg approved
                           DataFields(
                             label: 'Avg Approved',
                             controller: avgApprovedController,
+                            isNumber: true,
                           ),
                           //avg grade
                           DataFields(
                             label: 'Avg Grade(out of 20)',
                             controller: avgGradeController,
+                            isNumber: true,
                           ),
                           //submit button
                           CommonButton(
                             isLoading: state is StudentDataEntryLoading,
                             onPressed: () {
-                              final StudentDataEntryModel studentDataEntryModel =
-                                  StudentDataEntryModel(
-                                      studentId: idController.text,
-                                      name: nameController.text,
-                                      course: courseController.text,
-                                      motherQualification:
-                                          motherQualificationController.text,
-                                      fatherQualification:
-                                          fatherQualificationController.text,
-                                      motherOccupation:
-                                          motherOccupationController.text,
-                                      fatherOccupation:
-                                          fatherOccupationController.text,
-                                      debtor:
-                                          debtorController.text.toLowerCase() ==
-                                              "true",
-                                      tuitionFeesUpToDate:
-                                          tuitionFeesUpToDateController.text
-                                                  .toLowerCase() ==
-                                              "true",
-                                      gender: genderController.text,
-                                      scholarshipHolder:
-                                          scholarshipHolderController.text
-                                                  .toLowerCase() ==
-                                              "true",
-                                      age: int.parse(ageController.text),
-                                      gdp: double.parse(gdpController.text),
-                                      avgEnrolled: double.parse(
-                                          avgEnrolledController.text),
-                                      avgApproved: double.parse(
-                                          avgApprovedController.text),
-                                      avgGrade: double.parse(avgGradeController.text));
+                              try {
+                                if (nameController.text.isEmpty ||
+                                    idController.text.isEmpty ||
+                                    courseController.text.isEmpty ||
+                                    motherQualificationController
+                                        .text.isEmpty ||
+                                    fatherQualificationController
+                                        .text.isEmpty ||
+                                    motherOccupationController.text.isEmpty ||
+                                    fatherOccupationController.text.isEmpty ||
+                                    debtorController.text.isEmpty ||
+                                    tuitionFeesUpToDateController
+                                        .text.isEmpty ||
+                                    genderController.text.isEmpty ||
+                                    scholarshipHolderController.text.isEmpty ||
+                                    ageController.text.isEmpty ||
+                                    gdpController.text.isEmpty ||
+                                    avgEnrolledController.text.isEmpty ||
+                                    avgApprovedController.text.isEmpty ||
+                                    avgGradeController.text.isEmpty) {
+                                  showCustomSnackBar(
+                                      context, "Please fill all the data",
+                                      isError: true);
+                                  return;
+                                }
+                                final StudentDataEntryModel studentDataEntryModel =
+                                    StudentDataEntryModel(
+                                        studentId: idController.text,
+                                        name: nameController.text,
+                                        course: courseController.text,
+                                        motherQualification:
+                                            motherQualificationController.text,
+                                        fatherQualification:
+                                            fatherQualificationController.text,
+                                        motherOccupation:
+                                            motherOccupationController.text,
+                                        fatherOccupation:
+                                            fatherOccupationController.text,
+                                        debtor: debtorController.text.toLowerCase() ==
+                                            "true",
+                                        tuitionFeesUpToDate:
+                                            tuitionFeesUpToDateController.text
+                                                    .toLowerCase() ==
+                                                "true",
+                                        gender: genderController.text,
+                                        scholarshipHolder:
+                                            scholarshipHolderController.text
+                                                    .toLowerCase() ==
+                                                "true",
+                                        age: int.parse(ageController.text),
+                                        gdp: double.parse(gdpController.text),
+                                        avgEnrolled: double.parse(
+                                            avgEnrolledController.text),
+                                        avgApproved: double.parse(
+                                            avgApprovedController.text),
+                                        avgGrade:
+                                            double.parse(avgGradeController.text));
 
-                              context.read<StudentDataEntryBloc>().add(
-                                  StudentDataEntryButtonPressed(
-                                      studentDataEntryModel:
-                                          studentDataEntryModel));
+                                context.read<StudentDataEntryBloc>().add(
+                                    StudentDataEntryButtonPressed(
+                                        studentDataEntryModel:
+                                            studentDataEntryModel));
+                              } catch (e) {
+                                showCustomSnackBar(
+                                    context, "Please fill all the data",
+                                    isError: true);
+                              }
                             },
                             label: 'Upload',
                           ),
@@ -249,5 +326,26 @@ class _ScreenStudentDataEntryState extends State<ScreenStudentDataEntry> {
         );
       },
     );
+  }
+
+  //clear all controllers
+  void clearAllControllers() {
+    nameController.clear();
+    idController.clear();
+    applicationOrderController.clear();
+    courseController.clear();
+    motherQualificationController.clear();
+    fatherQualificationController.clear();
+    motherOccupationController.clear();
+    fatherOccupationController.clear();
+    debtorController.clear();
+    tuitionFeesUpToDateController.clear();
+    genderController.clear();
+    scholarshipHolderController.clear();
+    ageController.clear();
+    gdpController.clear();
+    avgEnrolledController.clear();
+    avgApprovedController.clear();
+    avgGradeController.clear();
   }
 }

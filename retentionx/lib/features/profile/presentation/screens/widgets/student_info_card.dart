@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
+import 'package:retentionx/features/profile/data/model/student_profile_model.dart';
 
 class StudentInfoCard extends StatelessWidget {
-  const StudentInfoCard({super.key});
-
+  const StudentInfoCard({super.key, required this.studentProfile});
+  final StudentProfileModel studentProfile;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -64,15 +65,15 @@ class StudentInfoCard extends StatelessWidget {
 
             // Registration Info
             const Text(
-              "Joined 28th Sept’ 2021",
+              "Course",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              "Reg no: 3856PM",
+            Text(
+              studentProfile.course,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -83,44 +84,37 @@ class StudentInfoCard extends StatelessWidget {
 
             // Last Exam Info
             const Text(
-              "Last Appeared Exam",
+              "Tuition Fee Up to date",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              "Semester 6th",
+            Text(
+              studentProfile.tuitionFeesUpToDate ? "Yes" : "No",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 // color: Color(0xFF0F5D56),
               ),
             ),
-            const SizedBox(height: 4),
-            const Text(
-              "(Tuesday 29th Sept’ 2023)",
-              style: TextStyle(
-                fontSize: 14,
-                // color: Color(0xFF0F5D56),
-              ),
-            ),
+
             const SizedBox(height: 20),
 
             // Total Attendance
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Text(
-                  "Total\nAttendance",
+                  "GDP",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                   ),
                 ),
                 Text(
-                  "720 DAYS",
+                  studentProfile.gdp.toString(),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

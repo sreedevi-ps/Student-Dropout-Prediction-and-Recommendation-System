@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:retentionx/core/app_routing/app_routing.dart';
 import 'package:retentionx/core/local_db/localdb.dart';
-import 'package:retentionx/features/auth/presentation/screens/login_screen.dart';
+import 'package:retentionx/features/auth/presentation/screens/selection_screen.dart';
+import 'package:retentionx/features/auth/presentation/screens/student_login_screen.dart';
 import 'package:retentionx/features/home/presentation/home.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Map<String, dynamic>? userData;
     userData = await LocalDatabase().getData("user");
     if (userData == null) {
-      AppRouting.goRemoveAll(screen: LoginScreen(), context: context);
+      AppRouting.goRemoveAll(screen: SelectionScreen(), context: context);
     } else {
       AppRouting.goRemoveAll(
           screen: Home(isAdmin: userData["isadmin"]), context: context);

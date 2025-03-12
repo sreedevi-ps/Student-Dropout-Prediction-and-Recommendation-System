@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
+import 'package:retentionx/core/widgets/loader/loader_widget.dart';
 import 'package:retentionx/features/student_list/data/repo/students_list_repo.dart';
 import 'package:retentionx/features/student_list/presentation/bloc/student_list_bloc.dart';
 import 'package:retentionx/features/student_list/presentation/widgets/student_list_widget.dart';
@@ -27,20 +28,39 @@ class _ScreenStudentsListState extends State<ScreenStudentsList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StudentListBloc, StudentListState>(
-      listener: (context, state) {
-        if (state is StudentListError) {
-          showCustomSnackBar(context, state.message, isError: true);
-        }
-      },
-      builder: (context, state) {
-        return state is StudentListSuccess ? StudentListWidget(
-          students: state.students, 
-        ) : SpinKitCircle(
-          color: Colors.white,
-          size: 40,
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        spacing: 20,
+        children: [
+          SizedBox(height: 20),
+          //text upload data
+          Text(
+            'Students Screen',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          BlocConsumer<StudentListBloc, StudentListState>(
+            listener: (context, state) {
+              if (state is StudentListError) {
+                showCustomSnackBar(context, state.message, isError: true);
+              }
+            },
+            builder: (context, state) {
+              return state is StudentListSuccess
+                  ? Expanded(
+                      child: StudentListWidget(
+                        students: state.students,
+                      ),
+                    )
+                  : Expanded(child: Center(child: LoaderWidget()));
+            },
+          ),
+        ],
+      ),
     );
   }
 }

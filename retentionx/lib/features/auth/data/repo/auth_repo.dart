@@ -19,7 +19,7 @@ class AuthRepo {
        Map<String, dynamic> responseData = response.data;
       if (responseData['status'] == "success") {
         UserLoginModel userloginmodel = UserLoginModel(
-            isAdmin: responseData["user"]=="admin", id: responseData["id"]);
+            isAdmin: responseData["id"]=="admin", id: responseData["id"], user: responseData["user"]);
         return right(userloginmodel);
       } else {
         return left(response.data['message']);

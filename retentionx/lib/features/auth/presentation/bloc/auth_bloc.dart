@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:retentionx/features/auth/data/model/user_logn_model.dart';
 import 'package:retentionx/features/auth/data/repo/auth_repo.dart';
 
 part 'auth_event.dart';
@@ -18,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError(l));
       }, (r) {
         
-        emit(AuthSuccess(r.isAdmin,r.id));
+        emit(AuthSuccess(r));
       });
     });
   }

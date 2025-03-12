@@ -2,26 +2,39 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:retentionx/core/api/api_urls.dart';
+import 'package:retentionx/core/extensions/either_extensions.dart';
 import 'package:retentionx/core/local_db/localdb.dart';
+import 'package:retentionx/features/view_recommendations/data/model/recommendation.dart';
 
 class ViewRecommendationsRepo {
   static final dio = Dio();
 
-  viewRecommendations() async {
+  static EitherFuture<List<Recommendation>> viewRecommendations({
+    required String query,
+  }) async {
     try {
-      // Map<String, dynamic>? user = await LocalDatabase().getData('user');
-
-      // String studentId = user!['id'];
-
       final response = await dio.post(
         ApiUrls.viewRecommendations,
-        data: {"query": "i want a course on aws cloud platform"},
+        data: {"query": query},
       );
 
-      return response.data;
+      Map<String, dynamic> data = response.data;
+
+      if (data['status'] == "success") {
+        List<Recommendation> recommendations = [];
+        for (var item in data['recommendations']) {
+          recommendations.add(Recommendation.fromJson(item));
+        }
+        return right(recommendations);
+      } else {
+        return left(data['message']);
+      }
     } catch (e) {
-      debugPrint(e.toString());
+      return left(e.toString());
     }
   }
 }
+
+//"i want a course on aws cloud platform"
