@@ -8,6 +8,7 @@ from recommendation import get_recommendations
 import pandas as pd
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename
+from sqlalchemy.exc import IntegrityError
 predictor = Prediction()
 
 load_dotenv()
@@ -204,9 +205,13 @@ def upload_students():
 
         return jsonify({"status": "success", "message": "Students uploaded successfully!", "count": len(students)}), 201
 
+    except IntegrityError as e:
+        db.session.rollback()
+        return jsonify({"status": "error", "message": "Duplicate student_id detected. Please check the file and try again."}), 400
+
     except Exception as e:
         db.session.rollback()
-        return jsonify({"status": "failure", "message": str(e)}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/get_student/<student_id>', methods=['GET'])
