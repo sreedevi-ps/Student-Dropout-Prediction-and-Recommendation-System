@@ -145,9 +145,14 @@ def add_student():
             "student_id": new_student.student_id
         }), 201
 
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({"status": "error", "message": "Student with this ID already exists."}), 200
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"status": "failure", "message": str(e)}), 500
+
 
 
 @app.route('/upload_students', methods=['POST'])
@@ -207,7 +212,7 @@ def upload_students():
 
     except IntegrityError as e:
         db.session.rollback()
-        return jsonify({"status": "error", "message": "Duplicate student_id detected. Please check the file and try again."}), 400
+        return jsonify({"status": "error", "message": "Duplicate student_id detected. Please check the file and try again."}), 200
 
     except Exception as e:
         db.session.rollback()
