@@ -29,20 +29,28 @@ class _ScreenStudentsListState extends State<ScreenStudentsList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         spacing: 20,
         children: [
-          SizedBox(height: 20),
+          Container(
+              color: Colors.black,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  SizedBox(height: 44),
+                  Text(
+                    'Students Screen',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              )),
           //text upload data
-          Text(
-            'Students Screen',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+
           BlocConsumer<StudentListBloc, StudentListState>(
             listener: (context, state) {
               if (state is StudentListError) {

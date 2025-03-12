@@ -50,7 +50,6 @@ class StudentDataEntryRepo {
 
         // Create form data
         FormData formData = FormData.fromMap({
-          "Key": "file",
           'file': await MultipartFile.fromFile(
             filePath!,
             // filename: fileName,
