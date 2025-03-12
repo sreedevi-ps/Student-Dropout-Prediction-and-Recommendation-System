@@ -4,16 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
-import 'package:retentionx/core/device/device_utils.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/features/data_entry/core/suggestions/data_suggestions.dart';
-import 'package:retentionx/features/data_entry/data/repo/student_data_entry_repo.dart';
 import 'package:retentionx/features/data_entry/presentation/bloc/student_data_entry/student_data_entry_bloc.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/data_drop_down.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/data_fields.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/widgets/excel_upload_button.dart';
-import 'package:retentionx/features/data_entry/presentation/screens/widgets/student_profile_pic.dart';
 
 import '../../data/model/student_entry_model.dart';
 

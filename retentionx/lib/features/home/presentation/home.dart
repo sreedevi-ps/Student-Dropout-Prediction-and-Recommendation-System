@@ -1,11 +1,9 @@
 import 'package:dot_curved_bottom_nav/dot_curved_bottom_nav.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retentionx/core/animation/app_animation_builder.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/features/view_recommendations/presentation/screens/screen_admin_recommendations.dart';
-import 'package:retentionx/features/auth/presentation/screens/student_login_screen.dart';
 import 'package:retentionx/features/auth/presentation/screens/screen_stundent_logout.dart';
 import 'package:retentionx/features/data_entry/presentation/screens/screen_student_data_entry.dart';
 import 'package:retentionx/features/home/presentation/menu_changer_bloc/menu_changer_bloc.dart';

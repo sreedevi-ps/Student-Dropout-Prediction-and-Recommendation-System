@@ -2,14 +2,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:retentionx/core/colors/app_colors.dart';
 import 'package:retentionx/core/snack_bar/show_snack_bar.dart';
 import 'package:retentionx/core/widgets/buttons/common_button.dart';
 import 'package:retentionx/core/widgets/loader/loader_widget.dart';
-import 'package:retentionx/features/view_recommendations/data/model/recommendation.dart';
-import 'package:retentionx/features/view_recommendations/data/repo/view_recommendations_repo.dart';
 import 'package:retentionx/features/view_recommendations/presentation/bloc/view_recommendations_bloc.dart';
 import 'package:retentionx/features/view_recommendations/presentation/widgets/recommendation_tile.dart';
 

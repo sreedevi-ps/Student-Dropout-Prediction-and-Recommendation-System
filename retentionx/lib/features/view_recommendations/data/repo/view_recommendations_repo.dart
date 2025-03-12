@@ -1,11 +1,8 @@
-import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:retentionx/core/api/api_urls.dart';
 import 'package:retentionx/core/extensions/either_extensions.dart';
-import 'package:retentionx/core/local_db/localdb.dart';
 import 'package:retentionx/features/view_recommendations/data/model/recommendation.dart';
 
 class ViewRecommendationsRepo {
