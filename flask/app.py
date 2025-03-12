@@ -1,8 +1,8 @@
-from flask import Flask, request, redirect, url_for, session, jsonify,send_from_directory
-from flask_cors import CORS 
+from flask import Flask, request, redirect, url_for, session, jsonify, send_from_directory
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
-from models import db, StudentData 
+from models import db, StudentData
 from predict import Prediction
 from recommendation import get_recommendations
 import pandas as pd
@@ -28,31 +28,44 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+ADMINS_LIST = os.getenv("ADMINS", "").split(",")
+
+ADMINS = {
+    course.strip(): {
+        "username": course.strip(),
+        "password": course.strip().split()[0].lower() + "123"
+    }
+    for course in ADMINS_LIST
+}
+
 db.init_app(app)
 migrate = Migrate(app, db)
 
 with app.app_context():
     db.create_all()
 
+
 @app.route('/')
 def home():
     text = "Hello! welcome to Student dropout api!"
     return jsonify(text)
+
 
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
 
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        session['user'] = username
-        return jsonify({
-            "status": "success",
-            "response_code": 200,
-            "message": "Admin login successful!",
-            "user": username,
-            "id": username
-        })
+    for course_name, credentials in ADMINS.items():
+        if username == credentials["username"] and password == credentials["password"]:
+            session['user'] = username
+            return jsonify({
+                "status": "success",
+                "response_code": 200,
+                "message": f"Admin login successful for {course_name}!",
+                "user": username,
+                "id": "admin"
+            })
 
     student = StudentData.query.filter_by(name=username).first()
 
@@ -65,7 +78,7 @@ def login():
             "user": "student",
             "id": student.student_id
         })
-    
+
     return jsonify({
         "status": "failure",
         "response_code": 401,
@@ -76,7 +89,7 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     if 'user' in session:
-        session.pop('user')  
+        session.pop('user')
         return jsonify({
             "status": "success",
             "response_code": 200,
@@ -93,8 +106,8 @@ def logout():
 @app.route('/add_student', methods=['POST'])
 def add_student():
     try:
-        data = request.json 
-        
+        data = request.json
+
         required_fields = ["student_id", "name"]
         for field in required_fields:
             if field not in data:
@@ -127,12 +140,12 @@ def add_student():
         return jsonify({
             "status": "success",
             "message": "Student added successfully!",
-            "user":"student",
+            "user": "student",
             "student_id": new_student.student_id
         }), 201
 
     except Exception as e:
-        db.session.rollback()  
+        db.session.rollback()
         return jsonify({"status": "failure", "message": str(e)}), 500
 
 
@@ -194,7 +207,8 @@ def upload_students():
     except Exception as e:
         db.session.rollback()
         return jsonify({"status": "failure", "message": str(e)}), 500
-    
+
+
 @app.route('/get_student/<student_id>', methods=['GET'])
 def get_student(student_id):
     try:
@@ -222,20 +236,29 @@ def get_student(student_id):
             "avg_enrolled": student.avg_enrolled,
             "avg_approved": student.avg_approved,
             "avg_grade": student.avg_grade,
-            "photo_url": f"{BASE_URL}/uploads/{os.path.basename(student.photo)}" if student.photo else None
+            "photo_url": f"{BASE_URL}/uploads/{os.path.basename(student.photo)}" if student.photo else None,
+            "recommendation": student.recommendation
         }
 
         return jsonify({"status": "success", "data": student_data}), 200
 
     except Exception as e:
         return jsonify({"status": "failure", "message": str(e)}), 500
-    
 
-@app.route('/get_students', methods=['GET'])
+
+@app.route('/get_students', methods=['POST'])
 def get_students():
     try:
+        data = request.get_json()
+        course = data.get("course")
+
+        if not course:
+            return jsonify({"status": "failure", "message": "Course is required"}), 400
+
         students = StudentData.query.with_entities(
-            StudentData.student_id, StudentData.name).all()
+            StudentData.student_id, StudentData.name
+        ).filter_by(course=course).all()
+
         student_list = [{"student_id": s.student_id, "name": s.name}
                         for s in students]
 
@@ -250,21 +273,40 @@ def predict():
         student_data = request.get_json()
         student_id = student_data.get("student_id")
 
-        if not student_data:
-            return jsonify({'error': 'No data provided'}), 400
         if not student_id:
             return jsonify({'error': 'No student ID provided'}), 400
 
         student = StudentData.query.filter_by(student_id=student_id).first()
         if not student:
             return jsonify({'error': 'Student not found'}), 404
-        
-        predictor = Prediction()
 
-        prediction_result = predictor.predict_student(student_data)
-        print(prediction_result)
+        student_data_from_db = {
+            "application_mode": student.application_mode,
+            "application_order": student.application_order,
+            "course": student.course,
+            "mother_qualification": student.mother_qualification,
+            "father_qualification": student.father_qualification,
+            "mother_occupation": student.mother_occupation,
+            "father_occupation": student.father_occupation,
+            "debtor": student.debtor,
+            "tuition_fees_up_to_date": student.tuition_fees_up_to_date,
+            "gender": student.gender,
+            "scholarship_holder": student.scholarship_holder,
+            "age": student.age,
+            "gdp": student.gdp,
+            "avg_enrolled": student.avg_enrolled,
+            "avg_approved": student.avg_approved,
+            "avg_grade": student.avg_grade
+        }
+
+        for key, value in student_data_from_db.items():
+            if value is None:
+                student_data_from_db[key] = 0
+
+        predictor = Prediction()
+        prediction_result = predictor.predict_student(student_data_from_db)
         student.prediction = prediction_result
-        db.session.commit() 
+        db.session.commit()
 
         return jsonify({
             'student_id': student_id,
@@ -287,6 +329,31 @@ def recommend():
 
     response = get_recommendations(user_query)
     return jsonify(response)
+
+
+@app.route("/admin-recommend", methods=["POST"])
+def admin_recommend():
+    """API endpoint for recommendations"""
+    data = request.get_json()
+    user_query = data.get("query")
+    student_id = data.get("student_id")
+
+    if not user_query:
+        return jsonify({"error": "query is required"}), 400
+    if not student_id:
+        return jsonify({"error": "student_id is required"}), 400
+
+    response = get_recommendations(user_query)
+    recommendations = response.get("recommendations")
+
+    if recommendations:
+        student = StudentData.query.filter_by(student_id=student_id).first()
+        if student:
+            student.recommendation = recommendations
+        db.session.commit()
+        return jsonify({"message": "Recommendations updated successfully", "recommendations": recommendations, "status": "success"})
+
+    return jsonify({"error": "No recommendations generated"}), 400
 
 
 @app.route('/upload_photo', methods=['POST'])
@@ -326,5 +393,6 @@ def upload_photo():
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
+
 if __name__ == '__main__':
-    app.run(debug=True,port=5500)
+    app.run(debug=True, port=5500)

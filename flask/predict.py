@@ -93,19 +93,21 @@ class Prediction:
             9991: "Management (evening attendance)"
         }
 
-
     def encode_student_data(self, student_data):
         """ Convert student data dictionary into a list of numerical values """
+
+        # print(student_data)
         mother_qualification = self.qualification_encoding.get(
-            student_data["mother_qualification"].strip(), 34) 
+            student_data["mother_qualification"].strip(), 34)
         father_qualification = self.qualification_encoding.get(
             student_data["father_qualification"].strip(), 34)
         mother_occupation = self.occupation_encoding.get(
-            student_data["mother_occupation"].strip(), 9) 
+            student_data["mother_occupation"].strip(), 9)
         father_occupation = self.occupation_encoding.get(
             student_data["father_occupation"].strip(), 9)
 
-        course = student_data["course"]
+        course = self.course_encoding.get(
+            student_data["course"].strip(), 9999)
 
         debtor = int(student_data["debtor"])
         tuition_fees_up_to_date = int(student_data["tuition_fees_up_to_date"])
@@ -136,6 +138,7 @@ class Prediction:
 
     def predict_student(self, student_data):
         """ Predict student outcome (dropout or graduate) """
+        # print(student_data)
 
         encoded_student_data = self.encode_student_data(student_data)
 

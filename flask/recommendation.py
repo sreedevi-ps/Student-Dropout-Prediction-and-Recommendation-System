@@ -69,7 +69,7 @@ def search_courses(query, top_k=10):
                 "reviews": course.get("reviews", 0),
                 "difficulty": course.get("difficulty", "Unknown"),
                 "url": course.get("url", "#"),
-                "distance": dist 
+                "distance": dist
             }
         )
 
@@ -80,7 +80,8 @@ def search_courses(query, top_k=10):
 
     return results[:3]
 
+
 def get_recommendations(user_query):
     """Fetches course recommendations based on user input."""
     courses = search_courses(user_query)
-    return {"recommendations": courses,"status":"success"}
+    return {"recommendations": courses, "status": "success"}

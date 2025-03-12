@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import JSON
 
 db = SQLAlchemy()
+
 
 class StudentData(db.Model):
     __tablename__ = 'student_data'
@@ -26,3 +28,4 @@ class StudentData(db.Model):
     avg_grade = db.Column(db.Float, nullable=True)
     prediction = db.Column(db.String, nullable=True)
     photo = db.Column(db.String, nullable=True)
+    recommendation = db.Column(JSON, nullable=True)
